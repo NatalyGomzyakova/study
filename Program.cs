@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 
 namespace study
@@ -8,23 +8,13 @@ namespace study
 
         // 2. с ref 
 
-        static int[] Array(ref int[] bst)
-        {
-            Random rand = new Random();
-            for(int i = 0; i < bst.Length; i++)
-            {
-
-                bst[i]=rand.Next();
-
-                
-            }
-            return bst;
-        }
-
+       
 
 
         static int[] BubbleSort(ref int[] bst)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             int temp;
             for (int i = 0; i < bst.Length; i++)
             {
@@ -38,13 +28,19 @@ namespace study
                     }
                 }
             }
-            
 
+            StopTime(stopWatch);
             return bst;
         }
-        static int[] ViborSort(ref int[] bst)
-        {
 
+
+
+        static int[] ViborSort(ref int[] bst, ref int[] b1)
+        {
+            b1 = bst;
+            
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
             for (int i = 0; i < bst.Length - 1; i++)
             {
                 //поиск минимального числа
@@ -61,22 +57,21 @@ namespace study
                 bst[min] = bst[i];
                 bst[i] = temp;
             }
+            StopTime(stopWatch);
             return bst;
         }
 
 
-        static int[] Vvod(ref int[] bst) {
-
-            for (int i = 0; i < bst.Length; i++)
-            {
-                Console.Write(bst[i] + " ");
-            }
-
-            return bst;
-        }
-        static int[] InsertionSort( ref int[] bst)
+      
+        static int[] InsertionSort(ref int[] bst )
         {
-            int newElement, location;
+
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+        
+
+        int newElement, location;
 
             for (int i = 1; i < bst.Length; i++)
             {
@@ -89,39 +84,73 @@ namespace study
                 }
                 bst[location + 1] = newElement;
             }
+          
+            StopTime(stopWatch);
             return bst;
         }
 
         static void Main(string[] args)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
 
+            Console.WriteLine("Введите число элементов в массиве");
+         int a1=int.Parse(Console.ReadLine());
+            int[] ast = new int[a1];
+            Array(ref ast);
+            int[] b1 = ast;
+           
+            Console.WriteLine("Пузырь");
+          // BubbleSort(ref ast ,ref b1);
+            // Vvod(ref ast);
+            Console.WriteLine("Вставка");
+            InsertionSort(ref ast,ref b1);
 
-
+            Console.WriteLine("Выборка");
+            ViborSort(ref ast, ref b1);
 
             
-            int a1 = 10000;
-            int[] ast= new int[a1];
-            Array(ref ast);
-
-            // Vvod(ref ast);
-
-           //  BubbleSort(ref ast);
-            //  ViborSort(ref ast);
-
-            InsertionSort(ref ast);
             //  Vvod(ref ast);
 
+
+
+        }
+
+
+        static int[] Array(ref int[] bst)
+        {
+            Random rand = new Random();
+            for (int i = 0; i < bst.Length; i++)
+            {
+
+                bst[i] = rand.Next();
+
+
+            }
+            return bst;
+        }
+        static int[] Vvod(ref int[] bst)
+        {
+
+            for (int i = 0; i < bst.Length; i++)
+            {
+                Console.Write(bst[i] + " ");
+            }
+
+            return bst;
+        }
+
+        static void StopTime(Stopwatch stopWatch) {
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
             // Format and display the TimeSpan value.
             string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
             ts.Hours, ts.Minutes, ts.Seconds,
-            ts.Milliseconds / 10);
+            ts.Milliseconds /10);
 
             Console.WriteLine(elapsedTime);
 
+
+
         }
+
     }
 }   
